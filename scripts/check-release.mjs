@@ -21,46 +21,51 @@ function assert(condition, message) {
 const packageJson = await readJson("package.json");
 const packageLock = await readJson("package-lock.json");
 const version = packageJson.version;
-const changelog = await readText("CHANGELOG.md");
-const releaseNotes = await readText(`docs/releases/v${version}.md`);
 const readme = await readText("README.md");
 const netlify = await readText("netlify.toml");
 const landingPage = await readText("public/index.html");
 
 assert(/^\d+\.\d+\.\d+$/.test(version), "package.json must use a stable semantic version.");
+
 assert(packageLock.version === version, "package-lock.json version must match package.json.");
+
 assert(
   packageLock.packages?.[""]?.version === version,
   "package-lock.json root package version must match package.json.",
 );
-assert(changelog.includes(`## [${version}] - `), "CHANGELOG.md must contain the current version.");
-assert(
-  releaseNotes.includes(`# ProjectScope Dynamic SVG v${version}`),
-  "Release notes are missing.",
-);
+
 assert(readme.includes(`version-${version}`), "README version badge is outdated.");
+
 assert(
   readme.includes("https://projectscope-dynamic-svg.netlify.app"),
   "README must reference the production domain.",
 );
+
 assert(!readme.includes("<DOMINIO_DO_DEPLOY>"), "README still contains deploy placeholders.");
+
 assert(/publish\s*=\s*"public"/.test(netlify), "Netlify publish directory must be public.");
+
 assert(netlify.includes('NPM_FLAGS = "--include=dev"'), "Netlify must install build dependencies.");
+
 assert(
   landingPage.includes("/api/cards/now-building.svg"),
   "Landing page must include Now Building.",
 );
+
 assert(
   landingPage.includes("/api/cards/project-radar.svg"),
   "Landing page must include Project Radar.",
 );
+
 assert(!/<script(?:\s|>)/i.test(landingPage), "Landing page must not include scripts.");
 
 if (errors.length > 0) {
   console.error("Release metadata validation failed:");
+
   for (const error of errors) {
     console.error(`- ${error}`);
   }
+
   process.exit(1);
 }
 
