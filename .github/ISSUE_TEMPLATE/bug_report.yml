@@ -1,0 +1,81 @@
+name: Relatar problema
+description: Informe um comportamento incorreto ou uma regressão reproduzível
+title: "FIX - "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Não inclua tokens, credenciais ou dados privados. Obrigado por registrar o problema.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Resumo
+      description: Explique o problema de forma objetiva
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Como reproduzir
+      description: Informe URL, parâmetros e etapas necessárias para reproduzir o problema
+      placeholder: |
+        1. Acesse...
+        2. Informe...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Comportamento observado
+    validations:
+      required: true
+
+  - type: dropdown
+    id: endpoint
+    attributes:
+      label: Área afetada
+      options:
+        - Now Building
+        - Project Radar
+        - Health
+        - GitHub Provider
+        - Netlify ou deploy
+        - Documentação
+        - Outra
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versão ou commit
+      placeholder: v1.0.0 ou SHA
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidências adicionais
+      description: Inclua logs sanitizados, imagens ou exemplos de SVG
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmações
+      options:
+        - label: Verifiquei que não há uma issue aberta equivalente
+          required: true
+        - label: Removi tokens, credenciais e informações privadas das evidências
+          required: true

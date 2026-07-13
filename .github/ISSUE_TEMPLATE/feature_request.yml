@@ -1,0 +1,40 @@
+name: Sugerir melhoria
+description: Proponha um novo comportamento, parâmetro, card ou evolução técnica
+title: "FEAT - "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema ou oportunidade
+      description: Explique qual necessidade motiva a proposta
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Solução proposta
+      description: Descreva o comportamento esperado e exemplos de uso
+    validations:
+      required: true
+
+  - type: textarea
+    id: contract
+    attributes:
+      label: Impacto no contrato público
+      description: Informe rotas, parâmetros, temas, headers ou compatibilidade afetados
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmação
+      options:
+        - label: Verifiquei que a proposta não duplica uma issue aberta
+          required: true

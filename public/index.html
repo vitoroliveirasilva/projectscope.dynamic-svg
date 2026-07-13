@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Cards SVG dinâmicos para apresentar projetos e atividade de desenvolvimento." />
+  <meta name="theme-color" content="#0d1117" />
+  <meta property="og:title" content="ProjectScope Dynamic SVG" />
+  <meta property="og:description" content="Now Building e Project Radar gerados dinamicamente com dados do GitHub." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://projectscope-dynamic-svg.netlify.app/" />
+  <link rel="canonical" href="https://projectscope-dynamic-svg.netlify.app/" />
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d1117'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%233776ab' stroke-width='5'/%3E%3Ccircle cx='32' cy='14' r='5' fill='%23742774'/%3E%3C/svg%3E" />
+  <title>ProjectScope Dynamic SVG</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background: #080b12;
+      color: #f0f6fc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(55, 118, 171, 0.24), transparent 34rem),
+        radial-gradient(circle at 88% 22%, rgba(116, 39, 116, 0.2), transparent 30rem), #080b12;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 72px 0 42px;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 24px 0 18px;
+      font-size: clamp(2.7rem, 8vw, 5.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.055em;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 0;
+      color: #a7b6c8;
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      line-height: 1.75;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      background: #161b22;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      border-color: #3776ab;
+      background: #3776ab;
+    }
+
+    main {
+      padding-bottom: 80px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .panel {
+      overflow: hidden;
+      border: 1px solid #30363d;
+      border-radius: 18px;
+      background: rgba(13, 17, 23, 0.9);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+    }
+
+    .panel-copy {
+      padding: 24px 24px 8px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+    }
+
+    .panel-copy p {
+      margin: 0;
+      color: #8b949e;
+      line-height: 1.65;
+    }
+
+    .card-preview {
+      display: block;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .card-preview img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    footer {
+      padding: 26px 0 40px;
+      border-top: 1px solid #21262d;
+      color: #7d8590;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 760px) {
+      header {
+        padding-top: 48px;
+      }
+
+      .card-preview {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="shell">
+    <h1>Projetos renderizados em SVG</h1>
+    <p class="lead">
+      ProjectScope transforma atividade real do GitHub em cards dinâmicos e incorporáveis
+      em READMEs, portfólios e páginas web
+    </p>
+    <nav class="actions" aria-label="Links principais">
+      <a class="button primary" href="https://github.com/vitoroliveirasilva/projectscope.dynamic-svg">Acessar
+        repositório</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <div class="grid">
+      <section class="panel" aria-labelledby="now-building-title">
+        <div class="panel-copy">
+          <h2 id="now-building-title">Now Building</h2>
+          <p>Projeto mais recentemente ativo, com branch, linguagem e último commit</p>
+        </div>
+        <a class="card-preview" href="/api/cards/now-building.svg?username=vitoroliveirasilva">
+          <img src="/api/cards/now-building.svg?username=vitoroliveirasilva&amp;width=900"
+            alt="Card Now Building de Vitor Oliveira Silva" />
+        </a>
+      </section>
+
+      <section class="panel" aria-labelledby="project-radar-title">
+        <div class="panel-copy">
+          <h2 id="project-radar-title">Project Radar</h2>
+          <p>Visualização orbital e determinística dos projetos com atividade recente</p>
+        </div>
+        <a class="card-preview" href="/api/cards/project-radar.svg?username=vitoroliveirasilva&amp;limit=8">
+          <img
+            src="/api/cards/project-radar.svg?username=vitoroliveirasilva&amp;limit=8&amp;width=900&amp;theme=midnight"
+            alt="Card Project Radar de Vitor Oliveira Silva" />
+        </a>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">ProjectScope Dynamic SVG · Node.js · TypeScript · Netlify Functions</div>
+  </footer>
+</body>
+
+</html>
