@@ -14,3 +14,9 @@
   to = "/.netlify/functions/health"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/api/cards/now-building.svg"
+  to = "/.netlify/functions/now-building"
+  status = 200
+  force = true
