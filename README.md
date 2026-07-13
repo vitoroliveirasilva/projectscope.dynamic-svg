@@ -370,16 +370,52 @@ O card de erro não expõe tokens, stack traces, cabeçalhos sensíveis nem deta
 
 ## Desenvolvimento
 
-O fluxo local usa scripts padronizados:
+### Instalação e execução local
+
+Instale as dependências do projeto:
 
 ```bash
 npm install
+```
+
+Inicie o ambiente local com as Netlify Functions:
+
+```bash
 npm run dev
+```
+
+### Validação completa
+
+Execute todas as verificações de qualidade com um único comando:
+
+```bash
+npm run check
+```
+
+Esse comando executa, em sequência:
+
+- Verificação de tipos com TypeScript;
+- Análise estática do código;
+- Verificação de formatação;
+- Testes automatizados;
+- Build de produção.
+
+### Comandos individuais
+
+As verificações também podem ser executadas separadamente:
+
+```bash
 npm run typecheck
 npm run lint
 npm run format:check
 npm test
 npm run build
+```
+
+Para aplicar automaticamente a formatação configurada no projeto:
+
+```bash
+npm run format
 ```
 
 O guia completo de ambiente, branches, commits, testes e critérios de conclusão está em [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md).
