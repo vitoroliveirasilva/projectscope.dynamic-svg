@@ -1,13 +1,19 @@
 [build]
   command = "npm run build"
+  publish = "public"
   functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "24"
   NPM_VERSION = "11"
+  NPM_FLAGS = "--include=dev"
 
 [functions]
   node_bundler = "esbuild"
+
+[dev]
+  publish = "public"
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/api/health.svg"
@@ -26,3 +32,13 @@
   to = "/.netlify/functions/project-radar"
   status = 200
   force = true
+
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; connect-src 'none'; font-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self' data:; object-src 'none'; script-src 'none'; style-src 'unsafe-inline'"
+    Permissions-Policy = "camera=(), geolocation=(), microphone=()"
+    Referrer-Policy = "no-referrer"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"

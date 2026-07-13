@@ -1,6 +1,6 @@
 {
   "name": "projectscope.dynamic-svg",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "SVGs dinâmicos para transformar dados de projetos e atividade de desenvolvimento em visualizações incorporáveis.",
   "type": "module",
@@ -21,7 +21,9 @@
     "test:watch": "npm run test:compile && node --test --watch dist-test/tests/**/*.test.js",
     "coverage": "npm run test:compile && node scripts/run-tests.mjs --coverage",
     "verify:deploy": "npm run build && node scripts/verify-deploy.mjs",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
+    "release:metadata": "node scripts/check-release.mjs",
+    "release:check": "npm run check && npm audit --audit-level=high && npm run release:metadata"
   },
   "engines": {
     "node": ">=24.0.0 <25",

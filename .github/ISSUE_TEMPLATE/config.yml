@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Reportar vulnerabilidade
+    url: https://github.com/vitoroliveirasilva/projectscope.dynamic-svg/security/advisories/new
+    about: Use o canal privado para problemas de segurança
+  - name: Documentação do projeto
+    url: https://github.com/vitoroliveirasilva/projectscope.dynamic-svg#readme
+    about: Consulte uso, parâmetros e configuração antes de abrir uma issue

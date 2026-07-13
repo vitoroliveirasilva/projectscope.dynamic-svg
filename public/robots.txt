@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://projectscope-dynamic-svg.netlify.app/sitemap.xml

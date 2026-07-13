@@ -9,6 +9,7 @@ on:
     branches:
       - dev
       - prod
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -19,9 +20,12 @@ concurrency:
 
 jobs:
   quality:
-    name: Quality gates
+    name: Quality gate
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    env:
+      CI: true
 
     steps:
       - name: Checkout repository
@@ -38,3 +42,9 @@ jobs:
 
       - name: Run quality checks
         run: npm run check
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
+      - name: Validate release metadata
+        run: npm run release:metadata
