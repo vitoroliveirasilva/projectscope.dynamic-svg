@@ -1,0 +1,39 @@
+{
+  "name": "projectscope.dynamic-svg",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SVGs dinâmicos para transformar dados de projetos e atividade de desenvolvimento em visualizações incorporáveis.",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes netlify-cli@26.2.0 dev",
+    "clean": "node -e \"const fs=require('node:fs'); for (const path of ['dist','dist-test','coverage']) fs.rmSync(path,{recursive:true,force:true})\"",
+    "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint src netlify tests scripts --deny-warnings",
+    "lint:fix": "oxlint src netlify tests scripts --fix --deny-warnings",
+    "format": "prettier --write . --ignore-unknown",
+    "format:check": "prettier --check . --ignore-unknown",
+    "test:compile": "node -e \"require('node:fs').rmSync('dist-test',{recursive:true,force:true})\" && tsc -p tsconfig.test.json",
+    "test": "npm run test:compile && node scripts/run-tests.mjs",
+    "test:unit": "npm run test:compile && node scripts/run-tests.mjs --suite=unit",
+    "test:integration": "npm run test:compile && node scripts/run-tests.mjs --suite=integration --pass-with-no-tests",
+    "test:contract": "npm run test:compile && node scripts/run-tests.mjs --suite=contract",
+    "test:watch": "npm run test:compile && node --test --watch dist-test/tests/**/*.test.js",
+    "coverage": "npm run test:compile && node scripts/run-tests.mjs --coverage",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build"
+  },
+  "engines": {
+    "node": ">=24.0.0 <25",
+    "npm": ">=11.0.0 <12"
+  },
+  "packageManager": "npm@11.18.0",
+  "dependencies": {
+    "@netlify/functions": "5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "oxlint": "1.73.0",
+    "prettier": "3.9.5",
+    "typescript": "6.0.3"
+  }
+}

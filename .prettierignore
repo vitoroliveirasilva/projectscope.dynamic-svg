@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-test/
+coverage/
+.netlify/
+package-lock.json
+README.md
+docs/

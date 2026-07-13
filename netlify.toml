@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "24"
+  NPM_VERSION = "11"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/health.svg"
+  to = "/.netlify/functions/health"
+  status = 200
+  force = true
