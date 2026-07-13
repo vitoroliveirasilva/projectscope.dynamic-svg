@@ -20,6 +20,7 @@
     "test:contract": "npm run test:compile && node scripts/run-tests.mjs --suite=contract",
     "test:watch": "npm run test:compile && node --test --watch dist-test/tests/**/*.test.js",
     "coverage": "npm run test:compile && node scripts/run-tests.mjs --coverage",
+    "verify:deploy": "npm run build && node scripts/verify-deploy.mjs",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build"
   },
   "engines": {
