@@ -2,6 +2,16 @@
 
 **SVGs dinâmicos para transformar dados de projetos e atividade de desenvolvimento em visualizações incorporáveis**
 
+<div align="center">
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/93804600-abc3-4caa-9953-a417c8648ae3/deploy-status)](https://app.netlify.com/projects/projectscope-dynamic-svg/deploys)
+![Node.js](https://img.shields.io/badge/Node.js-24-339933?logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
+![Netlify Functions](https://img.shields.io/badge/Netlify-Functions-00C7B7?logo=netlify&logoColor=white)
+![Dynamic SVG](https://img.shields.io/badge/Dynamic-SVG-FFB13B?logo=svg&logoColor=white)
+
+</div>
+
 - [Visão geral](#visão-geral)
 - [Cards](#cards)
 - [Arquitetura](#arquitetura)
