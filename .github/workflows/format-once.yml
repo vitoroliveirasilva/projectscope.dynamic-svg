@@ -1,0 +1,49 @@
+name: Format once
+
+on:
+  push:
+    branches: [dev]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: format-once-dev
+  cancel-in-progress: false
+
+jobs:
+  format:
+    name: Apply Prettier
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v7
+        with:
+          ref: dev
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply repository formatting
+        run: npm run format
+
+      - name: Commit formatting when needed
+        run: |
+          if git diff --quiet; then
+            echo "Nenhuma alteração de formatação necessária."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "STYLE - Aplica formatação oficial do projeto"
+          git push origin HEAD:dev
