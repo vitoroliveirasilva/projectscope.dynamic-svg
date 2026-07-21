@@ -26,7 +26,10 @@ describe("@vitoroliveirasilva/projectscope-svg-core", () => {
 
     assert.match(svg, /Package &amp; contract/);
     assert.match(svg, /Safe &lt;SVG&gt;/);
-    assert.equal(escapeXml('<script>alert("x")</script>'), "&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;");
+    assert.equal(
+      escapeXml('<script>alert("x")</script>'),
+      "&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt;",
+    );
     assert.equal(sanitizeXmlText("safe\u0000text"), "safetext");
     assert.ok(estimateTextWidth("ProjectScope", 16) > 0);
     assert.match(truncateSvgText("ProjectScope Dynamic SVG", 60, 16), /…$/);
