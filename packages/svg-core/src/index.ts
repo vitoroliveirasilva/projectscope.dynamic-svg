@@ -14,8 +14,4 @@ export type { ThemeName } from "../../../src/core/themes/registry.js";
 export { contrastRatio, resolveTheme } from "../../../src/core/themes/resolve-theme.js";
 export type { ResolveThemeOptions } from "../../../src/core/themes/resolve-theme.js";
 
-export type {
-  Theme,
-  ThemeColorOverrides,
-  ThemeColors,
-} from "../../../src/core/themes/theme.js";
+export type { Theme, ThemeColorOverrides, ThemeColors } from "../../../src/core/themes/theme.js";
