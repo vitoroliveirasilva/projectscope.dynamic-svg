@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "../..",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "types": []
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../src/core/render/document.ts",
+    "../../src/core/render/escape.ts",
+    "../../src/core/render/text.ts",
+    "../../src/core/themes/registry.ts",
+    "../../src/core/themes/resolve-theme.ts",
+    "../../src/core/themes/theme.ts"
+  ]
+}

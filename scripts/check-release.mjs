@@ -20,8 +20,11 @@ function assert(condition, message) {
 
 const packageJson = await readJson("package.json");
 const packageLock = await readJson("package-lock.json");
+const svgCorePackage = await readJson("packages/svg-core/package.json");
+const publishWorkflow = await readText(".github/workflows/publish-package.yml");
 const version = packageJson.version;
 const readme = await readText("README.md");
+const svgCoreReadme = await readText("packages/svg-core/README.md");
 const netlify = await readText("netlify.toml");
 const landingPage = await readText("public/index.html");
 
@@ -59,6 +62,62 @@ assert(
 
 assert(!/<script(?:\s|>)/i.test(landingPage), "Landing page must not include scripts.");
 
+assert(
+  svgCorePackage.name === "@vitoroliveirasilva/projectscope-svg-core",
+  "SVG core package name is invalid.",
+);
+assert(
+  /^\d+\.\d+\.\d+$/.test(svgCorePackage.version),
+  "SVG core package must use a stable semantic version.",
+);
+assert(svgCorePackage.private !== true, "SVG core package must be publishable.");
+assert(svgCorePackage.license === "MIT", "SVG core package license must be MIT.");
+assert(
+  svgCorePackage.publishConfig?.registry === "https://npm.pkg.github.com",
+  "SVG core package must target GitHub Packages.",
+);
+assert(
+  svgCorePackage.repository?.url ===
+    "https://github.com/vitoroliveirasilva/projectscope.dynamic-svg.git",
+  "SVG core package repository URL is invalid.",
+);
+assert(
+  svgCorePackage.repository?.directory === "packages/svg-core",
+  "SVG core package directory metadata is invalid.",
+);
+assert(
+  svgCorePackage.exports?.["."]?.import === "./dist/packages/svg-core/src/index.js",
+  "SVG core package JavaScript export is invalid.",
+);
+assert(
+  svgCorePackage.exports?.["."]?.types === "./dist/packages/svg-core/src/index.d.ts",
+  "SVG core package type export is invalid.",
+);
+assert(
+  svgCoreReadme.includes("GitHub Packages"),
+  "SVG core package README must document GitHub Packages.",
+);
+assert(
+  svgCoreReadme.includes("@vitoroliveirasilva/projectscope-svg-core"),
+  "SVG core package README must include the installation name.",
+);
+assert(
+  readme.includes("svg-core-v1.0.1") && svgCoreReadme.includes("svg-core-v1.0.1"),
+  "Application and SVG core release conventions must be documented.",
+);
+assert(
+  publishWorkflow.includes("startsWith(github.event.release.tag_name, 'svg-core-v')"),
+  "Package workflow must ignore application releases.",
+);
+assert(
+  publishWorkflow.includes('if [[ "$REF_NAME" != "prod" ]]'),
+  "Manual package publication must be restricted to prod.",
+);
+assert(
+  publishWorkflow.includes("git merge-base --is-ancestor HEAD origin/prod"),
+  "Package publication must require a commit contained in prod.",
+);
+
 if (errors.length > 0) {
   console.error("Release metadata validation failed:");
 
@@ -70,3 +129,4 @@ if (errors.length > 0) {
 }
 
 console.log(`Release metadata validated for v${version}.`);
+console.log(`SVG core package metadata validated for v${svgCorePackage.version}.`);
