@@ -1,6 +1,6 @@
 import { escapeXml } from "./escape.js";
 
-interface SvgDocumentOptions {
+export interface SvgDocumentOptions {
   readonly width: number;
   readonly height: number;
   readonly title: string;
