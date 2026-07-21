@@ -81,6 +81,36 @@ const svg = createSvgDocument({
 - `ThemeColorOverrides`;
 - `ThemeName`.
 
+## Versionamento e publicação
+
+O pacote possui versão independente da aplicação ProjectScope. Use tags de Release com este formato:
+
+```text
+svg-core-v1.0.0
+svg-core-v1.0.1
+svg-core-v1.1.0
+```
+
+Releases da aplicação, como `v1.1.0`, não publicam este pacote.
+
+Antes de publicar uma nova versão:
+
+1. altere `version` em `packages/svg-core/package.json`;
+2. valide `npm run package:check` e `npm run release:check`;
+3. faça merge em `prod`;
+4. crie a Release `svg-core-vX.Y.Z` apontando para o commit da `prod`;
+5. aguarde o workflow `Publish SVG core package`.
+
+O workflow rejeita:
+
+- tags sem o prefixo `svg-core-v`;
+- versão diferente da declarada no pacote;
+- publicação manual executada fora de `prod`;
+- tag ou commit que ainda não esteja contido em `prod`;
+- tentativa de republicar uma versão npm já existente.
+
+Publique uma nova versão somente quando a API ou a implementação reutilizável do SVG core mudar. Alterações exclusivas na aplicação, nos cards ou no deploy da Netlify não exigem nova versão do Package.
+
 ## Compatibilidade
 
 - Node.js 24;
