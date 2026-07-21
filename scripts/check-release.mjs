@@ -77,7 +77,7 @@ assert(
 );
 assert(
   svgCorePackage.repository?.url ===
-    "git+https://github.com/vitoroliveirasilva/projectscope.dynamic-svg.git",
+    "https://github.com/vitoroliveirasilva/projectscope.dynamic-svg.git",
   "SVG core package repository URL is invalid.",
 );
 assert(
