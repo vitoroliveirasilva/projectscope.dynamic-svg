@@ -1,0 +1,88 @@
+name: Publish SVG core package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Versão existente em packages/svg-core/package.json
+        required: true
+        default: "1.0.0"
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-svg-core-${{ github.event.release.tag_name || inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Validate and publish npm package
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js and GitHub Packages
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: "@vitoroliveirasilva"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve and validate version
+        id: version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          MANUAL_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          raw_version="${RELEASE_TAG:-${MANUAL_VERSION:-}}"
+          version="${raw_version#v}"
+          package_version="$(node --input-type=module -e "import packageJson from './packages/svg-core/package.json' with { type: 'json' }; console.log(packageJson.version)")"
+
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Versão inválida: $raw_version" >&2
+            exit 1
+          fi
+
+          if [[ "$version" != "$package_version" ]]; then
+            echo "A versão solicitada ($version) difere do pacote ($package_version)." >&2
+            exit 1
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Run release quality gate
+        run: npm run release:check
+
+      - name: Publish package
+        run: npm publish ./packages/svg-core
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish summary
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          {
+            echo "## Pacote publicado"
+            echo
+            echo "- Pacote: \`@vitoroliveirasilva/projectscope-svg-core@${VERSION}\`"
+            echo "- Registry: \`https://npm.pkg.github.com\`"
+            echo "- Origem: \`${GITHUB_REPOSITORY}@${GITHUB_SHA}\`"
+            echo "- Quality gate: aprovado"
+            echo
+            echo "Na primeira publicação, altere a visibilidade em Package settings para Public."
+          } >> "$GITHUB_STEP_SUMMARY"
