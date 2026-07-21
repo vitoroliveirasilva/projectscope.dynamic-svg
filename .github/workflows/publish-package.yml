@@ -22,12 +22,15 @@ concurrency:
 jobs:
   publish:
     name: Validate and publish npm package
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.release.tag_name, 'svg-core-v')
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js and GitHub Packages
         uses: actions/setup-node@v6
@@ -43,22 +46,42 @@ jobs:
       - name: Resolve and validate version
         id: version
         env:
+          EVENT_NAME: ${{ github.event_name }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           MANUAL_VERSION: ${{ inputs.version }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
 
-          raw_version="${RELEASE_TAG:-${MANUAL_VERSION:-}}"
-          version="${raw_version#v}"
-          package_version="$(node --input-type=module -e "import packageJson from './packages/svg-core/package.json' with { type: 'json' }; console.log(packageJson.version)")"
+          if [[ "$EVENT_NAME" == "release" ]]; then
+            if [[ ! "$RELEASE_TAG" =~ ^svg-core-v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+              echo "A Release do pacote deve usar a tag svg-core-vX.Y.Z." >&2
+              exit 1
+            fi
+            version="${RELEASE_TAG#svg-core-v}"
+          else
+            if [[ "$REF_NAME" != "prod" ]]; then
+              echo "A publicação manual do pacote só pode ser executada a partir da branch prod." >&2
+              exit 1
+            fi
+            version="$MANUAL_VERSION"
+          fi
 
           if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
-            echo "Versão inválida: $raw_version" >&2
+            echo "Versão inválida: $version" >&2
             exit 1
           fi
 
+          package_version="$(node --input-type=module -e "import packageJson from './packages/svg-core/package.json' with { type: 'json' }; console.log(packageJson.version)")"
+
           if [[ "$version" != "$package_version" ]]; then
             echo "A versão solicitada ($version) difere do pacote ($package_version)." >&2
+            exit 1
+          fi
+
+          git fetch origin prod
+          if ! git merge-base --is-ancestor HEAD origin/prod; then
+            echo "O commit da publicação ainda não está contido na branch prod." >&2
             exit 1
           fi
 
@@ -80,6 +103,7 @@ jobs:
             echo "## Pacote publicado"
             echo
             echo "- Pacote: \`@vitoroliveirasilva/projectscope-svg-core@${VERSION}\`"
+            echo "- Tag de release: \`svg-core-v${VERSION}\`"
             echo "- Registry: \`https://npm.pkg.github.com\`"
             echo "- Origem: \`${GITHUB_REPOSITORY}@${GITHUB_SHA}\`"
             echo "- Quality gate: aprovado"
