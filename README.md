@@ -181,6 +181,21 @@ A documentação completa de consumo está em [`packages/svg-core/README.md`](pa
 
 A publicação ocorre pelo workflow `Publish SVG core package`, usando o `GITHUB_TOKEN` temporário do próprio GitHub. Na primeira publicação, o Package é criado como privado e precisa ser alterado uma única vez para **Public** em suas configurações.
 
+### Versionamento independente
+
+A aplicação e o pacote possuem ciclos de versão independentes:
+
+```text
+v1.1.0          → Release da aplicação ProjectScope
+svg-core-v1.0.1 → Release do pacote @vitoroliveirasilva/projectscope-svg-core
+```
+
+Releases da aplicação com tag `v*` não publicam o Package. O workflow do Package executa somente para Releases com tag `svg-core-v*` ou por acionamento manual feito a partir da branch `prod`.
+
+Uma nova versão do Package só é necessária quando os módulos públicos em `packages/svg-core` ou os módulos compartilhados exportados pelo pacote mudarem. Alterações exclusivas em cards, Netlify Functions, providers, cache, documentação da aplicação ou landing page não exigem nova publicação do Package.
+
+Antes de criar uma Release `svg-core-vX.Y.Z`, atualize `packages/svg-core/package.json` para a mesma versão. O workflow rejeita versões divergentes e também impede a publicação de commits que ainda não estejam contidos em `prod`.
+
 ## Configuração
 
 Variáveis de ambiente:
