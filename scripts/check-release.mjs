@@ -21,6 +21,7 @@ function assert(condition, message) {
 const packageJson = await readJson("package.json");
 const packageLock = await readJson("package-lock.json");
 const svgCorePackage = await readJson("packages/svg-core/package.json");
+const publishWorkflow = await readText(".github/workflows/publish-package.yml");
 const version = packageJson.version;
 const readme = await readText("README.md");
 const svgCoreReadme = await readText("packages/svg-core/README.md");
@@ -99,6 +100,22 @@ assert(
 assert(
   svgCoreReadme.includes("@vitoroliveirasilva/projectscope-svg-core"),
   "SVG core package README must include the installation name.",
+);
+assert(
+  readme.includes("svg-core-v1.0.1") && svgCoreReadme.includes("svg-core-v1.0.1"),
+  "Application and SVG core release conventions must be documented.",
+);
+assert(
+  publishWorkflow.includes("startsWith(github.event.release.tag_name, 'svg-core-v')"),
+  "Package workflow must ignore application releases.",
+);
+assert(
+  publishWorkflow.includes('if [[ "$REF_NAME" != "prod" ]]'),
+  "Manual package publication must be restricted to prod.",
+);
+assert(
+  publishWorkflow.includes("git merge-base --is-ancestor HEAD origin/prod"),
+  "Package publication must require a commit contained in prod.",
 );
 
 if (errors.length > 0) {
