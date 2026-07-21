@@ -10,12 +10,14 @@
 ![Node.js](https://img.shields.io/badge/Node.js-24-339933?logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
 ![Netlify Functions](https://img.shields.io/badge/Netlify-Functions-00C7B7?logo=netlify&logoColor=white)
+![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-projectscope--svg--core-181717?logo=github&logoColor=white)
 
 </div>
 
 - [Produção](https://projectscope-dynamic-svg.netlify.app)
 - [Cards](#cards)
 - [Uso](#uso)
+- [Pacote reutilizável](#pacote-reutilizável)
 - [Desenvolvimento](#desenvolvimento)
 - [Documentação](#documentação)
 
@@ -151,6 +153,34 @@ Netlify Function
 
 Responsabilidades e decisões detalhadas estão em [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
+## Pacote reutilizável
+
+O núcleo de renderização e temas também é distribuído pelo GitHub Packages:
+
+```text
+@vitoroliveirasilva/projectscope-svg-core
+```
+
+O pacote é compilado diretamente a partir dos módulos usados pela aplicação, evitando uma segunda implementação. A API pública inclui criação de documento SVG acessível, escape XML, sanitização, estimativa e truncamento de texto, temas, sobrescritas de cor e cálculo de contraste.
+
+O GitHub Packages exige autenticação inclusive para pacotes públicos. Configure um personal access token classic somente com `read:packages` no `~/.npmrc` do usuário:
+
+```ini
+@vitoroliveirasilva:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=SEU_TOKEN
+always-auth=true
+```
+
+Instalação:
+
+```bash
+npm install @vitoroliveirasilva/projectscope-svg-core@1.0.0
+```
+
+A documentação completa de consumo está em [`packages/svg-core/README.md`](packages/svg-core/README.md).
+
+A publicação ocorre pelo workflow `Publish SVG core package`, usando o `GITHUB_TOKEN` temporário do próprio GitHub. Na primeira publicação, o Package é criado como privado e precisa ser alterado uma única vez para **Public** em suas configurações.
+
 ## Configuração
 
 Variáveis de ambiente:
@@ -200,6 +230,12 @@ Validação completa:
 npm run check
 ```
 
+Validação isolada do pacote:
+
+```bash
+npm run package:check
+```
+
 Preparação de release:
 
 ```bash
@@ -229,4 +265,5 @@ Consulte [`CONTRIBUTING.md`](CONTRIBUTING.md).
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Arquitetura, fluxo, cache, segurança e decisões |
 | [`docs/CARDS.md`](docs/CARDS.md) | Contratos, parâmetros, seleção, layouts e erros |
 | [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) | Ambiente, scripts, testes e critérios de conclusão |
+| [`packages/svg-core/README.md`](packages/svg-core/README.md) | Instalação e API do pacote reutilizável |
 | [`SECURITY.md`](SECURITY.md) | Política de segurança |
