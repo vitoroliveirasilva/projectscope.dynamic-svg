@@ -4,7 +4,7 @@ import type { Theme, ThemeColorOverrides, ThemeColors } from "./theme.js";
 const TEXT_CONTRAST_RATIO = 4.5;
 const DECORATIVE_CONTRAST_RATIO = 3;
 
-interface ResolveThemeOptions {
+export interface ResolveThemeOptions {
   readonly name?: ThemeName;
   readonly overrides?: ThemeColorOverrides;
 }
