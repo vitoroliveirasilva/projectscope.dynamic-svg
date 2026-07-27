@@ -115,7 +115,7 @@ Publique uma nova versão somente quando a API ou a implementação reutilizáve
 
 - Node.js 24;
 - ESM;
-- TypeScript 6;
+- TypeScript 7;
 - Navegadores e runtimes que consumam o JavaScript compilado pelo projeto cliente.
 
 ## Licença

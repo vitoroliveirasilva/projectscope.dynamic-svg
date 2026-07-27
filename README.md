@@ -8,7 +8,7 @@
 [![CI](https://github.com/vitoroliveirasilva/projectscope.dynamic-svg/actions/workflows/ci.yml/badge.svg?branch=prod)](https://github.com/vitoroliveirasilva/projectscope.dynamic-svg/actions/workflows/ci.yml)
 ![Version](https://img.shields.io/badge/version-1.0.0-3776AB)
 ![Node.js](https://img.shields.io/badge/Node.js-24-339933?logo=node.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white)
 ![Netlify Functions](https://img.shields.io/badge/Netlify-Functions-00C7B7?logo=netlify&logoColor=white)
 ![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-projectscope--svg--core-181717?logo=github&logoColor=white)
 
